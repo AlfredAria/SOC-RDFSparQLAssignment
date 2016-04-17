@@ -1,0 +1,14 @@
+README
+
+Both HelloRDF and RDFSearchWebApp are Eclipse projects.
+Compiled with idk 1.8 and RDFSearchWebApp is using Tomcat 8.
+
+HelloRDF is a tool to convert DBLP XML dataset into RDF.
+Configure the input and output file path with conversion.PathUtils
+Run a conversion with conversion.ConvertXMLToRDF to generate the lab RDF output.
+
+Run RDFSearchWebApp in Eclipse on a Tomcat 8 server.
+Browse to localhost:8080/RDFSearchWebApp/index.html to interact with the RDF model.
+
+The queries in the “console query” folder are hard-coded query parameters.
+The queries used in the RDFSearchWebApp, however, are parameterized. Output is in “web ui query”.

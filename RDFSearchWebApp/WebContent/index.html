@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="bootstrap.min.css">
+<script src="jquery.min.js"></script>
+<script src="bootstrap.min.js"></script>
+</head>
+<body>
+
+	<title>RDF Paper Lookup</title>
+	<div class="container">
+		<h2>RDF Paper Lookup</h2>
+		<div class="dropdown">
+			<button id="dropdown_btn" class="btn btn-primary dropdown-toggle" type="button"
+				data-toggle="dropdown">
+				<span id="dropdown_text"> Query 1 </span> 
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a id="q1">Query 1: Find Paper Title By Author</a></li>
+				<li><a id="q2">Query 2: Find Paper Title By Author And
+						Publishing Time Range </a></li>
+				<li><a id="q3">Query 3: Find Coauthors </a></li>
+				<li><a id="q4">Query 4: Find Detailed Description of Paper
+						By Title</a></li>
+				<li><a id="q5">Query 5: Find Detailed Description of Paper
+						By Keyword</a></li>
+			</ul>
+		</div>
+		<br />
+		<div>
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="form_author">Author </label> <input type="text"
+						class="form-control" id="form_author"
+						placeholder="Author (Exact Match Field)">
+				</div>
+				<div class="form-group">
+					<label for="form_start">Start With Year</label> <input type="text"
+						class="form-control" id="form_start" placeholder="Year"> <label
+						for="form_end">End With Year</label> <input type="text"
+						class="form-control" id="form_end" placeholder="Year">
+				</div>
+				<div class="form-group">
+					<label for="form_title">Title </label> <input type="text"
+						class="form-control" id="form_title"
+						placeholder="Title">
+				</div>
+				<button id="queryButton" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+		<h2>Result</h2>
+		<div id="output">
+			<table id="output_table">
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+	var selected = 1;
+	
+	var collectParams = function (task) {
+		switch (selected) {
+		case 1:
+			return { task: 1, author: $("#form_author").val() };
+		case 3:
+			return { task: 3, author: $("#form_author").val() };
+		case 2:
+			return { task: 2, author: $("#form_author").val(),
+						startWith: $("#form_start").val(), 
+						endWith: $("#form_end").val() };
+		case 4:
+			return { task: 4, title: $("#form_title").val() };
+		case 5:
+			return { task: 5, title: $("#form_title").val() };
+		}
+	};
+	var render = function (index, element) {
+		var line = "<tr>";
+		for (var key in element) {
+			if (key == "title") {
+				line += "<td width=\"550px\">" + element [key] + "</td>";				
+			} else {
+				line += "<td width=\"150px\">" + element [key] + "</td>";				
+			}
+		}
+		line += "</tr>";
+		$("#output_table").append(line);
+	}
+	
+	$(function() {
+		$("#q1").click(function() {
+			selected = 1;
+			$("#dropdown_text").html("Query 1");
+		});
+		$("#q2").click(function() {
+			selected = 2;
+			$("#dropdown_text").html("Query 2");
+		});
+		$("#q3").click(function() {
+			selected = 3;
+			$("#dropdown_text").html("Query 3");
+		});
+		$("#q4").click(function() {
+			selected = 4;
+			$("#dropdown_text").html("Query 4");
+		});
+		$("#q5").click(function() {
+			selected = 5;
+			$("#dropdown_text").html("Query 5");
+		});
+		$("#queryButton").click(function(e) {
+			var params = collectParams(selected);
+			e.preventDefault();
+				$.ajax({
+				    type: 'GET', 
+				    url: '/RDFSearchWebApp/RDFLookupServlet', 
+				    data: params,
+				    dataType: 'json',
+				    success: function (data) {
+				    	console.log("success " + data);
+				        $('#output_table').empty();
+				    	if (data.length === 0) {
+							alert("No results");
+				    	} else {
+	 				        $.each(data, render); 
+				    	}
+ 				    }
+				});
+		});
+		
+
+	});
+	
+	
+</script>
+</body>
+</html>

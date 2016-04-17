@@ -1,0 +1,10 @@
+PREFIX arc: <http://purl.org/dc/elements/1.1/>
+SELECT ?title ?author ?d
+WHERE {
+	?x arc:title ?title .
+	?x arc:creator ?author .
+	FILTER regex(?author, "Lyndon N. Smith") .
+	?x arc:date ?d .
+		FILTER (?d >= 2013)
+		FILTER (?d <= 2014)
+}

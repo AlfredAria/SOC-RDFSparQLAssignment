@@ -1,0 +1,6 @@
+PREFIX arc: <http://purl.org/dc/elements/1.1/>
+SELECT DISTINCT ?c
+WHERE {
+	?x arc:creator "Lyndon N. Smith" .
+	?x arc:creator ?c .
+}

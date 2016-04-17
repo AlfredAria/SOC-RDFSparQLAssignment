@@ -1,0 +1,6 @@
+PREFIX arc: <http://purl.org/dc/elements/1.1/>
+SELECT ?title
+	WHERE {
+		 ?x arc:title ?title .
+		 ?x arc:creator "Brian Allen" . 
+	 }

@@ -1,0 +1,9 @@
+# Switch java version in terminal
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+
+# Queries, with hard-coded parameters
+sparql --data=dblp.rdf --query=q1.rq
+sparql --data=dblp.rdf --query=q2.rq
+sparql --data=dblp.rdf --query=q3.rq
+sparql --data=dblp.rdf --query=q4.rq
+sparql --data=dblp.rdf --query=q5.rq
